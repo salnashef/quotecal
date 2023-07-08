@@ -149,14 +149,15 @@
 
     // Function to calculate the total price
     function calculateQuote() {
-      const campus = document.getElementById("campus").value;
-      const startDate = new Date(document.getElementById("start-date").value);
-      const duration = parseInt(document.getElementById("duration").value, 10);
-      const programType = document.getElementById("program-type").value;
-      const homestayType = document.getElementById("homestay-type").value;
-      const homestayDuration = parseInt(document.getElementById("homestay-duration").value, 10);
-      const transferType = document.getElementById("transfer-type").value;
-      const insuranceStartDate = new Date(document.getElementById("insurance-start-date").value);
+      const campus = document.getElementById("campus").value || "";
+      const startDate = new Date(document.getElementById("start-date").value || "");
+      const duration = parseInt(document.getElementById("duration").value, 10) || 0;
+      const programType = document.getElementById("program-type").value || "";
+      const homestayType = document.getElementById("homestay-type").value || "";
+      const homestayDuration = parseInt(document.getElementById("homestay-duration").value, 10) || 0;
+      const transferType = document.getElementById("transfer-type").value || "";
+      const insuranceType = document.getElementById("insurance-type").value || "";
+      const insuranceStartDate = insuranceType === "Yes (From Starting Date)" ? document.getElementById("start-date").value : "";
 
       // Calculate the end date based on the start date and duration
       const endDate = new Date(startDate);
@@ -169,7 +170,7 @@
         return;
       }
 
-      // Calculate the tuition by multiplying the program type price with the duration in weeks
+      // Calculate the tuitionby multiplying the program type price with the duration in weeks
       let tuition = 0;
       for (const week in price) {
         if (duration >= parseInt(week, 10)) {
@@ -194,25 +195,25 @@
       const materialFeesFormatted = materialFees.toFixed(2);
 
       // Calculate the homestay price
-      const homestayPrice = homestayPrices[homestayType][campus];
-      if (homestayPrice === undefined) {
-        document.getElementById("total-price").textContent = "Invalid homestay type or campus.";
-        return;
+      let homestayPrice = 0;
+      if (homestayType !== "No Accommodation") {
+        homestayPrice = homestayPrices[homestayType][campus] || 0;
       }
 
       // Calculate the total homestay price
       const totalHomestayPrice = homestayPrice * homestayDuration;
 
       // Calculate the transfer price
-      const transferPrice = airportTransferPrices[transferType];
-      if (transferPrice === undefined) {
-        document.getElementById("total-price").textContent = "Invalid transfer type.";
-        return;
-      }
+      const transferPrice = airportTransferPrices[transferType] || 0;
 
       // Calculate the insurance price
-      const insuranceDays = Math.floor((endDate - insuranceStartDate) / (1000 * 60 * 60 * 24)) + 1;
-      const insurancePrice = insuranceDays * insurancePricePerDay;
+      let insuranceDays = 0;
+      let insurancePrice = 0;
+      if (insuranceType === "Yes (From Starting Date)") {
+        const insuranceStartDateValue = new Date(insuranceStartDate || "");
+        insuranceDays = Math.floor((endDate - insuranceStartDateValue) / (1000 * 60 * 60 * 24)) + 1;
+        insurancePrice = insuranceDays * insurancePricePerDay;
+      }
 
       // Add registration fee
       const registrationFee = 175;
@@ -230,11 +231,11 @@
       // Display the breakdown
       document.getElementById("total-price").innerHTML =
         `<strong>Tuition:</strong> ${programType} (${duration} weeks) : $${tuition.toFixed(2)}<br>` +
-        `<strong>Material Fees:</strong> $${materialFeesFormatted}<br>` +
+        `${materialFees > 0 ? `<strong>Material Fees:</strong> $${materialFeesFormatted}<br>` : ""}` +
         `<strong>Homestay:</strong> ${homestayType} (${homestayDuration} weeks) : $${totalHomestayPrice.toFixed(2)}<br>` +
         `${homestayType !== "No Accommodation" ? `<strong>Homestay Placement Fee:</strong> $${placementFee.toFixed(2)}<br>` : ""}` +
         `<strong>Transfer:</strong> ${transferType} : $${transferPrice.toFixed(2)}<br>` +
-        `<strong>Insurance:</strong> ${insuranceDays} days : $${insurancePrice.toFixed(2)}<br>` +
+        `${insuranceType === "Yes (From Starting Date)" ? `<strong>Medical Insurance:</strong> ${insuranceDays} days : $${insurancePrice.toFixed(2)}<br>` : "<strong>Medical Insurance:</strong> No Medical Insurance<br>"}` +
         `<strong>Registration Fee:</strong> $${registrationFee.toFixed(2)}<br>` +
         `<strong>Total Price:</strong> <span class="result flashing">$${totalPriceFormatted}</span>`;
 
@@ -252,7 +253,7 @@
       document.getElementById("homestay-type").selectedIndex = 0;
       document.getElementById("homestay-duration").value = "";
       document.getElementById("transfer-type").selectedIndex = 0;
-      document.getElementById("insurance-start-date").value = "";
+      document.getElementById("insurance-type").selectedIndex = 0;
       document.getElementById("total-price").textContent = "";
       document.getElementById("thank-you-message").style.display = "none";
       document.getElementById("apply-now-button").style.display = "none";
@@ -306,8 +307,11 @@
     <option value="No Transfer">No Transfer</option>
   </select>
 
-  <label for="insurance-start-date">Insurance Start Date:</label>
-  <input type="date" id="insurance-start-date" required>
+  <label for="insurance-type">Medical Insurance:</label>
+  <select id="insurance-type" required>
+    <option value="Yes (From Starting Date)">Yes (From Starting Date)</option>
+    <option value="No Medical Insurance">No Medical Insurance</option>
+  </select>
 
   <button onclick="calculateQuote()">Calculate Quote</button>
   <button onclick="clearFields()">Clear</button>
