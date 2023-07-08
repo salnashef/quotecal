@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ESL Course Quote Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #273068;
+      color: #fff;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input[type="date"],
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 5px;
+      border: none;
+      margin-bottom: 15px;
+    }
+
+    button {
+      background-color: #f7a70b;
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #fac28d;
+    }
+
+    #total-price {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .result {
+      color: #fff;
+    }
+
+    .flashing {
+      animation: flashing-animation 1s infinite;
+    }
+
+    @keyframes flashing-animation {
+      0% {
+        color: #fff;
+      }
+      50% {
+        color: #ff0000;
+      }
+      100% {
+        color: #fff;
+      }
+    }
+  </style>
+  <script>
+    // Define the price schedule
+    const priceSchedule = {
+      "Semi-Intensive 26": {
+        1: 336.75,
+        4: 306.00,
+        8: 303.00,
+        12: 292.50,
+        24: 281.25,
+        36: 276.75
+      },
+      "Intensive 30": {
+        1: 377.25,
+        4: 342.00,
+        8: 339.00,
+        12: 327.75,
+        24: 315.00,
+        36: 309.75
+      },
+      "Super-Intensive 40": {
+        1: 441.00,
+        4: 401.25,
+        8: 396.75,
+        12: 383.25,
+        24: 368.25,
+        36: 363.00
+      },
+      "Morning 20": {
+        1: 278.25,
+        4: 253.50,
+        8: 248.25,
+        12: 240.75,
+        24: 230.25,
+        36: 228.00
+      },
+      "Afternoon 20": {
+        1: 278.25,
+        4: 253.50,
+        8: 248.25,
+        12: 240.75,
+        24: 230.25,
+        36: 228.00
+      }
+    };
+
+    const homestayPrices = {
+      "Half Board": {
+        "Vancouver": 308,
+        "Toronto": 323,
+        "Halifax": 260
+      },
+      "Full Board": {
+        "Vancouver": 323,
+        "Toronto": 338,
+        "Halifax": 246
+      },
+      "No Accommodation": 0
+    };
+
+    const airportTransferPrices = {
+      "Airport Transfer Arrival": 187,
+      "Airport Transfer Departure": 127,
+      "Transfer Two Ways": 314,
+      "No Transfer": 0
+    };
+
+    const insurancePricePerDay = 3.1;
+
+    // Function to get the next Monday date
+    function getNextMonday() {
+      const now = new Date();
+      const currentDay = now.getDay();
+      const daysUntilMonday = currentDay === 0 ? 1 : (8 - currentDay) % 7;
+      now.setDate(now.getDate() + daysUntilMonday);
+      return now;
+    }
+
+    // Set the minimum value for the start date input to be the next Monday
+    document.getElementById("start-date").setAttribute("min", getNextMonday().toISOString().split("T")[0]);
+
+    // Function to calculate the total price
+    function calculateQuote() {
+      const campus = document.getElementById("campus").value;
+      const startDate = new Date(document.getElementById("start-date").value);
+      const duration = parseInt(document.getElementById("duration").value, 10);
+      const programType = document.getElementById("program-type").value;
+      const homestayType = document.getElementById("homestay-type").value;
+      const homestayDuration = parseInt(document.getElementById("homestay-duration").value, 10);
+      const transferType = document.getElementById("transfer-type").value;
+      const insuranceStartDate = new Date(document.getElementById("insurance-start-date").value);
+
+      // Calculate the end date based on the start date and duration
+      const endDate = new Date(startDate);
+      endDate.setDate(startDate.getDate() + (duration * 7));
+
+      // Lookup the price based on the program type
+      const price = priceSchedule[programType];
+      if (!price) {
+        document.getElementById("total-price").textContent = "Invalid program type.";
+        return;
+      }
+
+      // Calculate the tuition by multiplying the program type price with the duration in weeks
+      let tuition = 0;
+      for (const week in price) {
+        if (duration >= parseInt(week, 10)) {
+          tuition = price[week] * duration;
+        } else {
+          break;
+        }
+      }
+
+      // Calculate material fees
+      let materialFees = 0;
+      if (duration >= 1 && duration <= 12) {
+        materialFees = 95;
+      } else if (duration >= 13 && duration <= 24) {
+        materialFees = 190;
+      } else if (duration >= 25 && duration <= 36) {
+        materialFees = 285;
+      } else if (duration >= 37 && duration <= 52) {
+        materialFees = 380;
+      }
+
+      const materialFeesFormatted = materialFees.toFixed(2);
+
+      // Calculate the homestay price
+      const homestayPrice = homestayPrices[homestayType][campus];
+      if (homestayPrice === undefined) {
+        document.getElementById("total-price").textContent = "Invalid homestay type or campus.";
+        return;
+      }
+
+      // Calculate the total homestay price
+      const totalHomestayPrice = homestayPrice * homestayDuration;
+
+      // Calculate the transfer price
+      const transferPrice = airportTransferPrices[transferType];
+      if (transferPrice === undefined) {
+        document.getElementById("total-price").textContent = "Invalid transfer type.";
+        return;
+      }
+
+      // Calculate the insurance price
+      const insuranceDays = Math.floor((endDate - insuranceStartDate) / (1000 * 60 * 60 * 24)) + 1;
+      const insurancePrice = insuranceDays * insurancePricePerDay;
+
+      // Add registration fee
+      const registrationFee = 175;
+
+      // Calculate the placement fee for homestay (excluding "No Accommodation")
+      let placementFee = 0;
+      if (homestayType !== "No Accommodation") {
+        placementFee = 240;
+      }
+
+      // Calculate the total price
+      const totalPrice = tuition + totalHomestayPrice + transferPrice + insurancePrice + registrationFee + placementFee + materialFees;
+      const totalPriceFormatted = totalPrice.toFixed(2);
+
+      // Display the breakdown
+      document.getElementById("total-price").innerHTML =
+        `<strong>Tuition:</strong> ${programType} (${duration} weeks) : $${tuition.toFixed(2)}<br>` +
+        `<strong>Material Fees:</strong> $${materialFeesFormatted}<br>` +
+        `<strong>Homestay:</strong> ${homestayType} (${homestayDuration} weeks) : $${totalHomestayPrice.toFixed(2)}<br>` +
+        `${homestayType !== "No Accommodation" ? `<strong>Homestay Placement Fee:</strong> $${placementFee.toFixed(2)}<br>` : ""}` +
+        `<strong>Transfer:</strong> ${transferType} : $${transferPrice.toFixed(2)}<br>` +
+        `<strong>Insurance:</strong> ${insuranceDays} days : $${insurancePrice.toFixed(2)}<br>` +
+        `<strong>Registration Fee:</strong> $${registrationFee.toFixed(2)}<br>` +
+        `<strong>Total Price:</strong> <span class="result flashing">$${totalPriceFormatted}</span>`;
+
+      // Show the "Thank you" message and "Apply Now" button
+      document.getElementById("thank-you-message").style.display = "block";
+      document.getElementById("apply-now-button").style.display = "block";
+    }
+
+    // Function to clear all input fields
+    function clearFields() {
+      document.getElementById("campus").selectedIndex = 0;
+      document.getElementById("start-date").value = "";
+      document.getElementById("duration").value = "";
+      document.getElementById("program-type").selectedIndex = 0;
+      document.getElementById("homestay-type").selectedIndex = 0;
+      document.getElementById("homestay-duration").value = "";
+      document.getElementById("transfer-type").selectedIndex = 0;
+      document.getElementById("insurance-start-date").value = "";
+      document.getElementById("total-price").textContent = "";
+      document.getElementById("thank-you-message").style.display = "none";
+      document.getElementById("apply-now-button").style.display = "none";
+    }
+  </script>
+</head>
+<body>
+  <h1>ESL Course Quote Calculator</h1>
+
+  <label for="campus">Campus:</label>
+  <select id="campus" required>
+    <option value="" disabled selected>Select Campus</option>
+    <option value="Vancouver">Vancouver</option>
+    <option value="Toronto">Toronto</option>
+    <option value="Halifax">Halifax</option>
+  </select>
+
+  <label for="start-date">Starting Date (Next Monday):</label>
+  <input type="date" id="start-date" min="" required>
+
+  <label for="duration">Duration (in weeks):</label>
+  <input type="number" id="duration" min="1" max="52" required>
+
+  <label for="program-type">Program Type:</label>
+  <select id="program-type" required>
+    <option value="" disabled selected>Select Program Type</option>
+    <option value="Semi-Intensive 26">Semi-Intensive 26</option>
+    <option value="Intensive 30">Intensive 30</option>
+    <option value="Super-Intensive 40">Super-Intensive 40</option>
+    <option value="Morning 20">Morning 20</option>
+    <option value="Afternoon 20">Afternoon 20</option>
+  </select>
+
+  <label for="homestay-type">Homestay Type:</label>
+  <select id="homestay-type" required>
+    <option value="" disabled selected>Select Homestay Type</option>
+    <option value="Half Board">Half Board</option>
+    <option value="Full Board">Full Board</option>
+    <option value="No Accommodation">No Accommodation</option>
+  </select>
+
+  <label for="homestay-duration">Homestay Duration (in weeks):</label>
+  <input type="number" id="homestay-duration" min="1" required>
+
+  <label for="transfer-type">Transfer Type:</label>
+  <select id="transfer-type" required>
+    <option value="" disabled selected>Select Transfer Type</option>
+    <option value="Airport Transfer Arrival">Airport Transfer Arrival</option>
+    <option value="Airport Transfer Departure">Airport Transfer Departure</option>
+    <option value="Transfer Two Ways">Transfer Two Ways</option>
+    <option value="No Transfer">No Transfer</option>
+  </select>
+
+  <label for="insurance-start-date">Insurance Start Date:</label>
+  <input type="date" id="insurance-start-date" required>
+
+  <button onclick="calculateQuote()">Calculate Quote</button>
+  <button onclick="clearFields()">Clear</button>
+
+  <p id="total-price"></p>
+
+  <p id="thank-you-message" style="display: none;">
+    Thank you for your interest at Oxford International North America.
+  </p>
+
+  <button id="apply-now-button" style="display: none;" onclick="window.location.href='https://oxfordintcanada.classe365.com/form/view/Application'">Apply Now</button>
+</body>
+</html>
