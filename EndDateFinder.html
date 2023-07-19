@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Course Date Calculator</title>
+  <style>
+    body {
+      background-color: #f3f5f9;
+      color: #333;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #272c62;
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    select,
+    input[type="date"],
+    input[type="number"],
+    button {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #f7f7f7;
+      font-size: 14px;
+      color: #333;
+    }
+
+    button {
+      margin-top: 20px;
+      background-color: #272c62;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #18224f;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Course Date Calculator</h1>
+
+    <label for="courseType">Select Course Type:</label>
+    <select id="courseType">
+      <option value="ESL">ESL</option>
+      <option value="Career College">Career College</option>
+    </select>
+
+    <label for="startDate">Starting Date:</label>
+    <input type="date" id="startDate">
+
+    <div id="eslDuration" style="display: none;">
+      <label for="durationWeeks">Duration (in weeks):</label>
+      <input type="number" id="durationWeeks" min="1">
+    </div>
+
+    <div id="careerCollegeOptions" style="display: none;">
+      <label for="careerCollegeType">Select Course:</label>
+      <select id="careerCollegeType">
+        <option value="HM">Hospitality Management (HM)</option>
+        <option value="HM+">Hospitality Management PLUS (HM+)</option>
+        <option value="CCA">Continuous Care Assistance (CCA)</option>
+      </select>
+    </div>
+
+    <button id="calculateButton">Calculate</button>
+    <button id="clearButton">Clear</button>
+
+    <div class="result">
+      <label for="endDate">End Date:</label>
+      <span id="endDate"></span>
+    </div>
+
+    <script>
+      window.onload = function() {
+        // Get the dropdown elements
+        const dropdown = document.getElementById('courseType');
+        const careerCollegeTypeDropdown = document.getElementById('careerCollegeType');
+
+        // Get the input and result elements
+        const startDateInput = document.getElementById('startDate');
+        const durationWeeksInput = document.getElementById('durationWeeks');
+        const endDateResult = document.getElementById('endDate');
+        const eslDuration = document.getElementById('eslDuration');
+        const careerCollegeOptions = document.getElementById('careerCollegeOptions');
+
+        // Function to show or hide the duration input and career college options based on the selected option
+        function toggleInputs() {
+          const selectedOption = dropdown.value;
+
+          if (selectedOption === 'ESL') {
+            eslDuration.style.display = 'block';
+            careerCollegeOptions.style.display = 'none';
+          } else if (selectedOption === 'Career College') {
+            eslDuration.style.display = 'none';
+            careerCollegeOptions.style.display = 'block';
+          }
+        }
+
+        // Add event listener to the dropdown
+        dropdown.addEventListener('change', toggleInputs);
+
+        // Call the toggleInputs function initially to adjust the display
+        toggleInputs();
+
+        // Add event listener to the calculate button
+        document.getElementById('calculateButton').addEventListener('click', function () {
+          const selectedOption = dropdown.value;
+
+          if (selectedOption === 'ESL') {
+            const weeks = parseInt(durationWeeksInput.value);
+            const startDate = new Date(startDateInput.value);
+            const endDate = calculateEndDate(startDate, weeks);
+
+            endDateResult.textContent = endDate.toDateString();
+          } else if (selectedOption === 'Career College') {
+            const selectedCareerCollegeOption = careerCollegeTypeDropdown.value;
+            const startDate = new Date(startDateInput.value);
+            let weeks, endDate;
+
+            if (selectedCareerCollegeOption === 'HM') {
+              weeks = 48;
+              endDate = calculateEndDate(startDate, weeks);
+            } else if (selectedCareerCollegeOption === 'HM+') {
+              weeks = 64;
+              endDate = calculateEndDate(startDate, weeks);
+            } else if (selectedCareerCollegeOption === 'CCA') {
+              weeks = 40;
+              endDate = calculateEndDate(startDate, weeks);
+            }
+
+            endDateResult.textContent = endDate.toDateString();
+          }
+        });
+
+        // Add event listener to the clear button
+        document.getElementById('clearButton').addEventListener('click', function () {
+          dropdown.value = 'ESL';
+          startDateInput.value = '';
+          durationWeeksInput.value = '';
+          careerCollegeTypeDropdown.value = 'HM';
+          endDateResult.textContent = '';
+          toggleInputs();
+        });
+
+        // Function to calculate end date
+        function calculateEndDate(startDate, weeks) {
+          const millisecondsPerDay = 24 * 60 * 60 * 1000;
+          let endDate = new Date(startDate.getTime() + weeks * 7 * millisecondsPerDay);
+
+          // Find the last Friday
+          while (endDate.getDay() !== 5) {
+            endDate.setDate(endDate.getDate() + 1);
+          }
+
+          // Adjust to the last Friday if the calculated date is after the intended end date
+          if (endDate > new Date(startDate.getTime() + weeks * 7 * millisecondsPerDay)) {
+            endDate = new Date(endDate.getTime() - 7 * millisecondsPerDay);
+          }
+
+          return endDate;
+        }
+      };
+    </script>
+  </div>
+</body>
+</html>
