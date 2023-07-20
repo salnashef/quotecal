@@ -1,80 +1,146 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>ESL Course Quote Calculator</title>
+  <title>ESL Quote Calculator</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #272c62;
-      color: #fff;
-      padding: 20px;
-    }
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+  color: #333;
+  padding: 20px;
+  margin: 0 auto;
+  max-width: 500px;
+  box-sizing: border-box;
+}
 
-    h1 {
-      text-align: center;
-    }
+h1 {
+  text-align: center;
+  color: #555;
+  margin-bottom: 20px;
+}
 
-    label {
-      display: block;
-      margin-bottom: 5px;
-    }
+label {
+  display: block;
+  margin-bottom: 10px;
+  color: #555;
+  font-weight: bold;
+}
 
-    input[type="date"],
-    input[type="number"],
-    select {
-      width: 100%;
-      padding: 8px;
-      border-radius: 5px;
-      border: none;
-      margin-bottom: 15px;
-    }
+input[type="date"],
+input[type="number"],
+select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+  color: #333;
+  box-sizing: border-box;
+}
 
-    button {
-      background-color: #f7a70b;
-      color: #fff;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-right: 10px;
-    }
+button {
+  background-color: #555;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
 
-    .clear-button {
-      background-color: #777;
-    }
+.clear-button {
+  background-color: #777;
+}
 
-    #total-price {
-      margin-top: 20px;
-      font-weight: bold;
-      font-size: 16px;
-      color: #f7a70b;
-      display: none;
-    }
+.result {
+  margin-top: 20px;
+  font-size: 14px;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
 
-    .result {
-      font-size: 14px;
-    }
+.result strong {
+  color: #555;
+}
 
-    #thank-you-message {
-      display: none;
-      margin-top: 20px;
-      font-size: 16px;
-      text-align: center;
-    }
+.result a {
+  color: #fff;
+  text-decoration: none;
+  background-color: #555;
+  padding: 10px 15px;
+  border-radius: 5px;
+  display: inline-block;
+}
 
-    .apply-now-link {
-      margin-top: 10px;
-      text-align: center;
-    }
+.error-message {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #f00;
+}
 
-    .apply-now-link a {
-      color: #fff;
-      text-decoration: none;
-      background-color: #f7a70b;
-      padding: 10px 15px;
-      border-radius: 5px;
-      display: inline-block;
-    }
+.thank-you-message {
+  margin-top: 20px;
+  font-size: 16px;
+  text-align: center;
+  color: #555;
+}
+
+.apply-now-link {
+  margin-top: 10px;
+  text-align: center;
+}
+
+@media screen and (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  input[type="date"],
+  input[type="number"],
+  select {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 10px 15px;
+  }
+
+  .result {
+    font-size: 12px;
+    padding: 10px;
+  }
+
+  .result strong {
+    font-size: 14px;
+  }
+
+  .result a {
+    font-size: 14px;
+    padding: 10px 15px;
+  }
+
+  .error-message {
+    font-size: 14px;
+  }
+
+  .thank-you-message {
+    font-size: 14px;
+  }
+
+  .apply-now-link {
+    font-size: 14px;
+  }
+}
+
   </style>
   <script>
     const priceSchedules = {
@@ -403,7 +469,7 @@
         <strong class="white-text">Homestay fee:</strong> $${totalHomestayPrice.toFixed(2)}<br>
         <strong class="white-text">Homestay placement fee:</strong> $${homestayPlacementFee.toFixed(2)}<br>
         <strong class="white-text">Transfer fee:</strong> $${transferPrice.toFixed(2)}<br>
-        <strong class="white-text">Medical insurance fee (${insuranceDays}days):</strong> $${insurancePrice.toFixed(2)}<br>
+        <strong class="white-text">Medical insurance fee ((${insuranceDays}days):</strong> $${insurancePrice.toFixed(2)}<br>
         <strong class="white-text">Total:</strong> $${totalPrice.toFixed(2)}
       `;
       totalPriceElement.style.display = "block";
@@ -437,7 +503,7 @@
   </script>
 </head>
 <body>
-  <h1>ESL Course Quote Calculator</h1>
+  <h1>ESL Quote Calculator</h1>
   <label for="country">Country:</label>
   <select id="country" onchange="updateCampusDropdown()">
     <option value="">Select Country</option>
@@ -489,3 +555,8 @@
   </script>
 </body>
 </html>
+
+
+
+
+
