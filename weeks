@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ESL Weeks required to be admitted to OIEG NA Career Colleges </title>
+    <style>
+      h1 {
+            font-size: 20px; /* Set the desired font size here */
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            text-align: center;
+            margin: 50px;
+        }
+
+        h1 {
+            color: #008080;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            border-radius: 10px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #008080;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005f5f;
+        }
+
+        #result {
+            font-size: 18px;
+            font-weight: bold;
+            color: #008080;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>ESL Weeks required to be admitted to OIEG NA Career Colleges</h1>
+    <div class="container">
+        <label for="ccProgram">Student CC Program:</label>
+        <select id="ccProgram">
+            <option value="Hospitality Management Diploma">Hospitality Management Diploma</option>
+            <option value="Couniting Care Assistance Diploma">Couniting Care Assistance Diploma</option>
+        </select>
+
+        <label for="eslProgram">Student ESL Program:</label>
+        <select id="eslProgram">
+            <option value="10">Evening 16</option>
+            <option value="9">Morning 20</option>
+            <option value="8">Semi-Intensive 26</option>
+            <option value="7">Intensive 30</option>
+            <option value="6">Super-Intensive 40</option>
+        </select>
+
+        <label for="currentLevel">Enter your current level:</label>
+        <input type="number" id="currentLevel" min="1" max="10" placeholder="Enter level here">
+
+        <button onclick="calculateWeeks()">Calculate</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        // Data table for levels and lessons
+        const levelsTable = {
+            10: [17, 16, 13, 10, 8],
+            9: [17, 15, 13, 10, 8],
+            8: [14, 13, 12, 9, 8],
+            7: [12, 10, 9, 7, 6],
+            6: [12, 10, 9, 7, 6],
+            5: [12, 10, 9, 7, 5],
+            4: [12, 10, 9, 7, 5],
+            3: [11, 9, 7, 6, 4],
+            2: [11, 9, 7, 6, 4],
+            1: [11, 9, 7, 6, 4],
+        };
+
+        function calculateWeeks() {
+            const ccProgram = document.getElementById("ccProgram").value;
+            const eslProgram = document.getElementById("eslProgram").value;
+            const currentLevelInput = document.getElementById("currentLevel");
+            const currentLevel = parseInt(currentLevelInput.value);
+
+            if (isNaN(currentLevel) || currentLevel < 1 || currentLevel > 10) {
+                document.getElementById("result").innerText = "Please enter a valid current level (1 to 10).";
+                return;
+            }
+
+            let requiredLevel = 0;
+            if (ccProgram === "Hospitality Management Diploma") {
+                requiredLevel = 5;
+            } else if (ccProgram === "Couniting Care Assistance Diploma") {
+                requiredLevel = 6;
+            } else {
+                document.getElementById("result").innerText = "Invalid CC Program";
+                return;
+            }
+
+            if (!(eslProgram in levelsTable)) {
+                document.getElementById("result").innerText = "Invalid ESL Program";
+                return;
+            }
+
+            let weeksRequired = 0;
+            for (let i = currentLevel; i <= requiredLevel; i++) {
+                weeksRequired += levelsTable[i][getEslProgramIndex(eslProgram)];
+            }
+
+            document.getElementById("result").innerText = "Student requires " + weeksRequired + " weeks to start the chosen " + ccProgram +" , don't forget if you reach this level Lucy will buy you lunch.";
+        }
+
+        function getEslProgramIndex(eslProgram) {
+            return 10 - parseInt(eslProgram);
+        }
+    </script>
+</body>
+</html>
+
+
+
