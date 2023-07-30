@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Weeks to Pass Level Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      text-align: center;
+      margin: 50px;
+    }
+    h1 {
+      font-size: 20px;
+      color: #008080;
+    }
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      border-radius: 10px;
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+      color: #333;
+    }
+    select, input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #008080;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005f5f;
+    }
+    #result {
+      font-size: 18px;
+      font-weight: bold;
+      color: #008080;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Weeks to Pass Level Calculator</h1>
+    <div class="input-group">
+      <label for="currentLevel">Enter current student level:</label>
+      <input type="number" id="currentLevel" min="1" max="10" required>
+    </div>
+    <div class="input-group">
+      <label for="desiredLevel">Enter desired level to pass:</label>
+      <input type="number" id="desiredLevel" min="1" max="10" required>
+    </div>
+    <div class="input-group">
+      <label for="program">Select the program (lessons per week):</label>
+      <select id="program">
+        <option value="16">16 Lessons</option>
+        <option value="20">20 Lessons</option>
+        <option value="26">26 Lessons</option>
+        <option value="30">30 Lessons</option>
+        <option value="40">40 Lessons</option>
+      </select>
+    </div>
+    <button class="calculate-btn" onclick="calculateWeeks()">Calculate Weeks</button>
+    <button class="clear-btn" onclick="clearFields()">Clear</button>
+    <p id="result"></p>
+  </div>
+
+  <script>
+    function calculateWeeks() {
+      const currentLevel = parseInt(document.getElementById("currentLevel").value);
+      const desiredLevel = parseInt(document.getElementById("desiredLevel").value);
+      const program = parseInt(document.getElementById("program").value);
+
+      if (isNaN(currentLevel) || isNaN(desiredLevel) || isNaN(program)) {
+        document.getElementById("result").innerHTML = "Please enter valid numeric values.";
+        return;
+      }
+
+      const weeksTable = [
+        [11, 9, 7, 6, 4],
+        [11, 9, 7, 6, 4],
+        [11, 9, 7, 6, 4],
+        [12, 10, 9, 7, 5],
+        [12, 10, 9, 7, 5],
+        [12, 10, 9, 7, 6],
+        [12, 10, 9, 7, 6],
+        [14, 13, 12, 9, 8],
+        [17, 15, 13, 10, 8],
+        [17, 16, 13, 10, 8],
+      ];
+
+      const programMapping = {
+        16: 0,
+        20: 1,
+        26: 2,
+        30: 3,
+        40: 4
+      };
+
+      if (currentLevel >= 1 && currentLevel <= 10 && desiredLevel >= 1 && desiredLevel <= 10) {
+        let totalWeeks = 0;
+        for (let i = currentLevel - 1; i < desiredLevel; i++) {
+          totalWeeks += weeksTable[i][programMapping[program]];
+        }
+
+        document.getElementById("result").innerHTML = `You will need ${totalWeeks} weeks to pass from level ${currentLevel} to level ${desiredLevel}.`;
+      } else {
+        document.getElementById("result").innerHTML = "Please enter valid levels between 1 and 10.";
+      }
+    }
+
+    function clearFields() {
+      document.getElementById("currentLevel").value = "";
+      document.getElementById("desiredLevel").value = "";
+      document.getElementById("program").value = "16";
+      document.getElementById("result").innerHTML = "";
+    }
+  </script>
+</body>
+</html>
