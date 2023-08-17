@@ -67,49 +67,79 @@
       }
     }
   </style>
+</head>
+<body>
+  <h1>ESL Course Quote Calculator</h1>
+
+  <label for="campus">Campus:</label>
+  <select id="campus" required>
+    <option value="" disabled selected>Select Campus</option>
+    <option value="Vancouver">Vancouver</option>
+    <option value="Toronto">Toronto</option>
+    <option value="Halifax">Halifax</option>
+  </select>
+
+  <label for="start-date">Starting Date (Next Monday):</label>
+  <input type="date" id="start-date" min="" required>
+
+  <label for="duration">Duration (in weeks):</label>
+  <input type="number" id="duration" min="1" max="52" required>
+
+  <label for="program-type">Program Type:</label>
+  <select id="program-type" required>
+    <option value="" disabled selected>Select Program Type</option>
+    <option value="Semi-Intensive 26">Semi-Intensive 26</option>
+    <option value="Intensive 30">Intensive 30</option>
+    <option value="Super-Intensive 40">Super-Intensive 40</option>
+    <option value="Morning 20">Morning 20</option>
+    <option value="Evening 20">Evening 20</option>
+  </select>
+
+  <label for="homestay-type">Homestay Type:</label>
+  <select id="homestay-type" required>
+    <option value="" disabled selected>Select Homestay Type</option>
+    <option value="Half Board">Half Board</option>
+    <option value="Full Board">Full Board</option>
+    <option value="No Accommodation">No Accommodation</option>
+  </select>
+
+  <label for="homestay-duration">Homestay Duration (in weeks):</label>
+  <input type="number" id="homestay-duration" min="1" required>
+
+  <label for="transfer-type">Transfer Type:</label>
+  <select id="transfer-type" required>
+    <option value="" disabled selected>Select Transfer Type</option>
+    <option value="Airport Transfer Arrival">Airport Transfer Arrival</option>
+    <option value="Airport Transfer Departure">Airport Transfer Departure</option>
+    <option value="Transfer Two Ways">Transfer Two Ways</option>
+    <option value="No Transfer">No Transfer</option>
+  </select>
+
+  <label for="insurance-type">Medical Insurance:</label>
+  <select id="insurance-type" required>
+    <option value="Yes (From Starting Date)">Yes (From Starting Date)</option>
+    <option value="No Medical Insurance">No Medical Insurance</option>
+  </select>
+
+  <button onclick="calculateQuote()">Calculate Quote</button>
+  <button onclick="clearFields()">Clear</button>
+
+  <p id="total-price"></p>
+
+  <p id="thank-you-message" style="display: none;">
+    Thank you for your interest at Oxford International North America.
+  </p>
+
+  <button id="apply-now-button" style="display: none;" onclick="window.location.href='https://oxfordintcanada.classe365.com/form/view/Application'">Apply Now</button>
+
   <script>
     // Define the price schedule
     const priceSchedule = {
-      "Semi-Intensive 26": {
-        1: 336.75,
-        4: 306.00,
-        8: 303.00,
-        12: 292.50,
-        24: 281.25,
-        36: 276.75
-      },
-      "Intensive 30": {
-        1: 377.25,
-        4: 342.00,
-        8: 339.00,
-        12: 327.75,
-        24: 315.00,
-        36: 309.75
-      },
-      "Super-Intensive 40": {
-        1: 441.00,
-        4: 401.25,
-        8: 396.75,
-        12: 383.25,
-        24: 368.25,
-        36: 363.00
-      },
-      "Morning 20": {
-        1: 278.25,
-        4: 253.50,
-        8: 248.25,
-        12: 240.75,
-        24: 230.25,
-        36: 228.00
-      },
-      "Afternoon 20": {
-        1: 278.25,
-        4: 253.50,
-        8: 248.25,
-        12: 240.75,
-        24: 230.25,
-        36: 228.00
-      }
+      "Semi-Intensive 26": 250,
+      "Intensive 30": 250,
+      "Super-Intensive 40": 250,
+      "Morning 20": 200,
+      "Evening 20": 200
     };
 
     const homestayPrices = {
@@ -170,15 +200,8 @@
         return;
       }
 
-      // Calculate the tuitionby multiplying the program type price with the duration in weeks
-      let tuition = 0;
-      for (const week in price) {
-        if (duration >= parseInt(week, 10)) {
-          tuition = price[week] * duration;
-        } else {
-          break;
-        }
-      }
+      // Calculate the tuition by multiplying the program type price with the duration in weeks
+      const tuition = price * duration;
 
       // Calculate material fees
       let materialFees = 0;
@@ -259,69 +282,5 @@
       document.getElementById("apply-now-button").style.display = "none";
     }
   </script>
-</head>
-<body>
-  <h1>ESL Course Quote Calculator</h1>
-
-  <label for="campus">Campus:</label>
-  <select id="campus" required>
-    <option value="" disabled selected>Select Campus</option>
-    <option value="Vancouver">Vancouver</option>
-    <option value="Toronto">Toronto</option>
-    <option value="Halifax">Halifax</option>
-  </select>
-
-  <label for="start-date">Starting Date (Next Monday):</label>
-  <input type="date" id="start-date" min="" required>
-
-  <label for="duration">Duration (in weeks):</label>
-  <input type="number" id="duration" min="1" max="52" required>
-
-  <label for="program-type">Program Type:</label>
-  <select id="program-type" required>
-    <option value="" disabled selected>Select Program Type</option>
-    <option value="Semi-Intensive 26">Semi-Intensive 26</option>
-    <option value="Intensive 30">Intensive 30</option>
-    <option value="Super-Intensive 40">Super-Intensive 40</option>
-    <option value="Morning 20">Morning 20</option>
-    <option value="Afternoon 20">Afternoon 20</option>
-  </select>
-
-  <label for="homestay-type">Homestay Type:</label>
-  <select id="homestay-type" required>
-    <option value="" disabled selected>Select Homestay Type</option>
-    <option value="Half Board">Half Board</option>
-    <option value="Full Board">Full Board</option>
-    <option value="No Accommodation">No Accommodation</option>
-  </select>
-
-  <label for="homestay-duration">Homestay Duration (in weeks):</label>
-  <input type="number" id="homestay-duration" min="1" required>
-
-  <label for="transfer-type">Transfer Type:</label>
-  <select id="transfer-type" required>
-    <option value="" disabled selected>Select Transfer Type</option>
-    <option value="Airport Transfer Arrival">Airport Transfer Arrival</option>
-    <option value="Airport Transfer Departure">Airport Transfer Departure</option>
-    <option value="Transfer Two Ways">Transfer Two Ways</option>
-    <option value="No Transfer">No Transfer</option>
-  </select>
-
-  <label for="insurance-type">Medical Insurance:</label>
-  <select id="insurance-type" required>
-    <option value="Yes (From Starting Date)">Yes (From Starting Date)</option>
-    <option value="No Medical Insurance">No Medical Insurance</option>
-  </select>
-
-  <button onclick="calculateQuote()">Calculate Quote</button>
-  <button onclick="clearFields()">Clear</button>
-
-  <p id="total-price"></p>
-
-  <p id="thank-you-message" style="display: none;">
-    Thank you for your interest at Oxford International North America.
-  </p>
-
-  <button id="apply-now-button" style="display: none;" onclick="window.location.href='https://oxfordintcanada.classe365.com/form/view/Application'">Apply Now</button>
 </body>
 </html>
