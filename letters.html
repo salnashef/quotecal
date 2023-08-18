@@ -77,7 +77,7 @@
 <body>
   <div class="keyboard">
     <div class="row">
-      <div class="key alef" onclick="playSound('https://drive.google.com/file/d/1omY8CRXLm6rbni8MnfhUKI0i6mzFFmjA/view?usp=drive_link', this) ">أ</div>
+      <div class="key alef" onclick="playSound('alef', 'https://drive.google.com/uc?export=download&id=1omY8CRXLm6rbni8MnfhUKI0i6mzFFmjA', this)">أ</div>
       <div class="key ba" onclick="playSound('ba', this)">ب</div>
       <div class="key ta" onclick="playSound('ta', this)">ت</div>
       <div class="key tha" onclick="playSound('tha', this)">ث</div>
@@ -117,20 +117,20 @@
     </div>
   </div>
 
-  <script>
-    function playSound(audioURL, element) {
-  let audio = new Audio(audioURL);
-  audio.currentTime = 0;
-  audio.play();
+<script>
+  function playSound(letter, element) {
+    let audio = new Audio(`${letter}.mp3`);
+    audio.currentTime = 0;
+    audio.play();
 
-  // Add the 'flash' class to the clicked key during the last 3 seconds of audio
-  setTimeout(function() {
-    element.classList.add('flash');
-    setTimeout(function() {
-      element.classList.remove('flash');
-    }, 3000);
-  }, (audio.duration - 3) * 1000); // Add the 'flash' class before the last 3 seconds
-}
-  </script>
+    // Add the 'flash' class to the clicked key during the last 3 seconds of audio
+    setTimeout(function () {
+      element.classList.add('flash');
+      setTimeout(function () {
+        element.classList.remove('flash');
+      }, 3000);
+    }, (audio.duration - 3) * 1000); // Add the 'flash' class before the last 3 seconds
+  }
+</script>
 </body>
 </html>
