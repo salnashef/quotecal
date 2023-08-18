@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html dir="rtl">
+<head>
+  <title>Arabic Keyboard</title>
+  <style>
+    .keyboard {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+    .row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+    .key {
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid black;
+      cursor: pointer;
+      font-size: 20px;
+      transition: background-color 0.3s ease;
+    }
+
+    /* Background colors for each letter */
+    .alef { background-color: #FFDDC1; color: #000; }
+    .ba { background-color: #FFABAB; color: #000; }
+    .ta { background-color: #FFC3A0; color: #000; }
+    .tha { background-color: #FF677D; color: #000; }
+    .jeem { background-color: #D4A5A5; color: #000; }
+    .haa { background-color: #392F5A; color: #FFF; }
+    .khaa { background-color: #31A2AC; color: #FFF; }
+    .dal { background-color: #61C0BF; color: #000; }
+    .dhal { background-color: #6B4226; color: #FFF; }
+    .ra { background-color: #D9BF77; color: #000; }
+    .zay { background-color: #ACD8AA; color: #000; }
+    .seen { background-color: #FFE156; color: #000; }
+    .sheen { background-color: #6A0572; color: #FFF; }
+    .sad { background-color: #AB83A1; color: #000; }
+    .dad { background-color: #D4AC6A; color: #000; }
+    .taa { background-color: #4B7447; color: #FFF; }
+    .dhaa { background-color: #379683; color: #FFF; }
+    .ain { background-color: #5CDB95; color: #000; }
+    .ghain { background-color: #8E8D8A; color: #000; }
+    .faa { background-color: #EAEAEA; color: #000; }
+    .qaf { background-color: #FFFFFF; color: #000; }
+    .kaf { background-color: #E6EBE0; color: #000; }
+    .lam { background-color: #F4AC45; color: #000; }
+    .meem { background-color: #E5853E; color: #000; }
+    .noon { background-color: #00203F; color: #FFF; }
+    .ha { background-color: #5E2BFF; color: #FFF; }
+    .waw { background-color: #80ED99; color: #000; }
+    .yaa { background-color: #9D4EDD; color: #FFF; }
+
+    /* Animation for flashing key during the last 3 seconds of audio */
+    .flash {
+      animation: flash-animation 0.3s ease infinite;
+    }
+
+    @keyframes flash-animation {
+      0%, 100% {
+        background-color: inherit;
+      }
+      50% {
+        background-color: #FFFF00; /* Change to your desired flash color */
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="keyboard">
+    <div class="row">
+      <div class="key alef" onclick="playSound('alef', this)">أ</div>
+      <div class="key ba" onclick="playSound('ba', this)">ب</div>
+      <div class="key ta" onclick="playSound('ta', this)">ت</div>
+      <div class="key tha" onclick="playSound('tha', this)">ث</div>
+      <div class="key jeem" onclick="playSound('jeem', this)">ج</div>
+    </div>
+    <div class="row">
+      <div class="key haa" onclick="playSound('haa', this)">ح</div>
+      <div class="key khaa" onclick="playSound('khaa', this)">خ</div>
+      <div class="key dal" onclick="playSound('dal', this)">د</div>
+      <div class="key dhal" onclick="playSound('dhal', this)">ذ</div>
+      <div class="key ra" onclick="playSound('ra', this)">ر</div>
+    </div>
+    <div class="row">
+      <div class="key zay" onclick="playSound('zay', this)">ز</div>
+      <div class="key sheen" onclick="playSound('sheen', this)">ش</div>
+      <div class="key seen" onclick="playSound('seen', this)">س</div>
+      <div class="key sad" onclick="playSound('sad', this)">ص</div>
+      <div class="key dad" onclick="playSound('dad', this)">ض</div>
+    </div>
+    <div class="row">
+      <div class="key taa" onclick="playSound('taa', this)">ط</div>
+      <div class="key dhaa" onclick="playSound('dhaa', this)">ظ</div>
+      <div class="key ain" onclick="playSound('ain', this)">ع</div>
+      <div class="key ghain" onclick="playSound('ghain', this)">غ</div>
+      <div class="key faa" onclick="playSound('faa', this)">ف</div>
+    </div>
+    <div class="row">
+      <div class="key qaf" onclick="playSound('qaf', this)">ق</div>
+      <div class="key kaf" onclick="playSound('kaf', this)">ك</div>
+      <div class="key lam" onclick="playSound('lam', this)">ل</div>
+      <div class="key meem" onclick="playSound('meem', this)">م</div>
+      <div class="key noon" onclick="playSound('noon', this)">ن</div>
+    </div>
+    <div class="row">
+      <div class="key waw" onclick="playSound('waw', this)">و</div>
+      <div class="key yaa" onclick="playSound('yaa', this)">ي</div>
+    </div>
+  </div>
+
+  <script>
+    function playSound(letter, element) {
+      let audio = new Audio(`sounds/${letter}.mp3`);
+      audio.currentTime = 0;
+      audio.play();
+
+      // Add the 'flash' class to the clicked key during the last 3 seconds of audio
+      setTimeout(function() {
+        element.classList.add('flash');
+        setTimeout(function() {
+          element.classList.remove('flash');
+        }, 3000);
+      }, (audio.duration - 3) * 1000); // Add the 'flash' class before the last 3 seconds
+    }
+  </script>
+</body>
+</html>
