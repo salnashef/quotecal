@@ -78,6 +78,7 @@
   <div class="keyboard">
     <div class="row">
       <div class="key alef" onclick="playSound('alef', 'https://drive.google.com/uc?export=download&id=1omY8CRXLm6rbni8MnfhUKI0i6mzFFmjA', this)">أ</div>
+<!-- Other keys... -->
       <div class="key ba" onclick="playSound('ba', this)">ب</div>
       <div class="key ta" onclick="playSound('ta', this)">ت</div>
       <div class="key tha" onclick="playSound('tha', this)">ث</div>
@@ -118,8 +119,8 @@
   </div>
 
 <script>
-  function playSound(letter, element) {
-    let audio = new Audio(`${letter}.mp3`);
+  function playSound(letter, audioURL, element) {
+    let audio = new Audio(audioURL);
     audio.currentTime = 0;
     audio.play();
 
