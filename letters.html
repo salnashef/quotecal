@@ -118,19 +118,19 @@
   </div>
 
   <script>
-    function playSound(letter, element) {
-      let audio = new Audio(`sounds/${letter}.mp3`);
-      audio.currentTime = 0;
-      audio.play();
+    function playSound(audioURL, element) {
+  let audio = new Audio(audioURL);
+  audio.currentTime = 0;
+  audio.play();
 
-      // Add the 'flash' class to the clicked key during the last 3 seconds of audio
-      setTimeout(function() {
-        element.classList.add('flash');
-        setTimeout(function() {
-          element.classList.remove('flash');
-        }, 3000);
-      }, (audio.duration - 3) * 1000); // Add the 'flash' class before the last 3 seconds
-    }
+  // Add the 'flash' class to the clicked key during the last 3 seconds of audio
+  setTimeout(function() {
+    element.classList.add('flash');
+    setTimeout(function() {
+      element.classList.remove('flash');
+    }, 3000);
+  }, (audio.duration - 3) * 1000); // Add the 'flash' class before the last 3 seconds
+}
   </script>
 </body>
 </html>
