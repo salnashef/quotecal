@@ -28,6 +28,18 @@
       transition: background-color 0.3s ease;
     }
 
+    .button {
+      width: 100px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid black;
+      cursor: pointer;
+      font-size: 15px;
+      transition: background-color 0.3s ease;
+    }
+
     /* Background colors for each letter */
     .alef { background-color: #FFDDC1; color: #000; }
     .ba { background-color: #FFABAB; color: #000; }
@@ -57,7 +69,9 @@
     .ha { background-color: #5E2BFF; color: #FFF; }
     .waw { background-color: #80ED99; color: #000; }
     .yaa { background-color: #9D4EDD; color: #FFF; }
-
+    .Khodrawat { background-color: #FFDDC1; color: #000; }
+    
+    
     /* Animation for flashing key during the last 3 seconds of audio */
     .flash {
       animation: flash-animation 0.3s ease infinite;
@@ -114,6 +128,11 @@
       <div class="key haa" data-audio="https://drive.google.com/uc?export=download&id=1omY8CRXLm6rbni8MnfhUKI0i6mzFFmjA">ه</div>
       <div class="key waw" data-audio="https://drive.google.com/uc?export=download&id=1omY8CRXLm6rbni8MnfhUKI0i6mzFFmjA">و</div>
       <div class="key yaa" data-audio="https://drive.google.com/uc?export=download&id=1omY8CRXLm6rbni8MnfhUKI0i6mzFFmjA">ي</div>
+      </div>
+    <div class="row">
+      <div class="button Khodrawat" data-audio="https://drive.google.com/uc?export=download&id=13_2BljNLzmx4p73g9hPwHxpUsLJMJ5BN">أغنية الخضروات</div>
+
+      
     </div>
   </div>
   <script>
@@ -130,6 +149,14 @@
     var keys = document.querySelectorAll('.key');
     keys.forEach(function(key) {
       key.addEventListener('click', function() {
+        var audioURL = this.getAttribute('data-audio');
+        playSound(audioURL, this);
+      });
+    });
+
+    var buttons = document.querySelectorAll('.button');
+    buttons.forEach(function(button) {
+      button.addEventListener('click', function() {
         var audioURL = this.getAttribute('data-audio');
         playSound(audioURL, this);
       });
