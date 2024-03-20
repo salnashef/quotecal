@@ -415,13 +415,18 @@ button {
 
       const tuitionAfterDiscount = tuition - (tuition * (discountPercentage / 100));
 
-      const homestayPrice = homestayPrices[country][campus][homestayType];
-      if (homestayPrice === undefined) {
-        displayErrorMessage("Invalid homestay type or campus.");
-        return;
-      }
+      let totalHomestayPrice = 0;
+      let homestayPlacementFee = 0;
+      if (homestayType !== "No Accommodation") {
+        const homestayPrice = homestayPrices[country][campus][homestayType];
+        if (homestayPrice === undefined) {
+          displayErrorMessage("Invalid homestay type or campus.");
+          return;
+        }
 
-      const totalHomestayPrice = homestayPrice * homestayDuration;
+        totalHomestayPrice = homestayPrice * homestayDuration;
+        homestayPlacementFee = homestayPlacementFees["Half Board"][country] || 0;
+      }
 
       const transferPrice = airportTransferPrices[country][campus][transferType];
       if (transferPrice === undefined) {
@@ -441,8 +446,6 @@ button {
           break;
         }
       }
-
-      const homestayPlacementFee = homestayPlacementFees["Half Board"][country] || 0;
 
       const totalPrice =
         tuitionAfterDiscount +
@@ -474,15 +477,6 @@ button {
       document.getElementById("apply-now-link").href = "https://oxfordintcanada.classe365.com/form/view/Application";
     }
 
-    function displayErrorMessage(message) {
-      const errorMessageElement = document.getElementById("error-message");
-      errorMessageElement.textContent = message;
-      errorMessageElement.style.display = "block";
-
-      document.getElementById("total-price").style.display = "none";
-      document.getElementById("thank-you-message").style.display = "none";
-      document.getElementById("apply-now-link").style.display = "none";
-    }
 
     function hideErrorMessage() {
       document.getElementById("error-message").style.display = "none";
