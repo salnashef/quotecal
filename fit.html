@@ -77,31 +77,16 @@
             const activityLevel = document.getElementById('activityLevel').value;
 
             const bmi = (weight / ((height / 100) * (height / 100))).toFixed(2);
-            let pushUps = '';
-            let pullUps = '';
-            let runningRecommendation = '';
-            let maintenanceCalories = '';
-            let weightLossCalories = '';
-            let weightGainCalories = '';
+            let bmiCategory = '';
 
             if (bmi < 18.5) {
-                pushUps = '30+';
-                pullUps = '10+';
+                bmiCategory = 'Underweight: Your BMI is below 18.5, which means you are underweight. It is important to consult with a healthcare provider to determine if this is a healthy weight for you.';
             } else if (bmi >= 18.5 && bmi < 25) {
-                pushUps = '40+';
-                pullUps = '15+';
+                bmiCategory = 'Normal weight: Your BMI is between 18.5 and 24.9, which is considered a normal and healthy weight range for most adults.';
             } else if (bmi >= 25 && bmi < 30) {
-                pushUps = '50+';
-                pullUps = '20+';
+                bmiCategory = 'Overweight: Your BMI is between 25 and 29.9, which means you are overweight. It is recommended to consult with a healthcare provider to discuss ways to achieve a healthy weight.';
             } else {
-                pushUps = '60+';
-                pullUps = '25+';
-            }
-
-            if (gender === 'male') {
-                runningRecommendation = 'Run 2-3 times a week, starting with 2-3 km per run, and increase gradually.';
-            } else {
-                runningRecommendation = 'Run 2-3 times a week, starting with 1-2 km per run, and increase gradually.';
+                bmiCategory = 'Obese: Your BMI is 30 or higher, which means you are obese. It is important to consult with a healthcare provider to discuss the health risks associated with obesity and to develop a plan for weight management.';
             }
 
             let bmr = 0;
@@ -110,6 +95,10 @@
             } else {
                 bmr = 10 * weight + 6.25 * height - 5 * age - 161;
             }
+
+            let maintenanceCalories = 0;
+            let weightLossCalories = 0;
+            let weightGainCalories = 0;
 
             switch (activityLevel) {
                 case 'sedentary':
@@ -134,14 +123,42 @@
             weightLossCalories = maintenanceCalories - 500;
             weightGainCalories = maintenanceCalories + 500;
 
+            const maintenanceDiet = `
+                - Breakfast: Greek yogurt (200g) with mixed berries (100g) and honey (15g)
+                - Snack: Mixed nuts (30g)
+                - Lunch: Mediterranean salad with olive oil dressing, including lettuce (100g), tomatoes (100g), cucumbers (50g), olives (30g), feta cheese (50g), and grilled chicken breast (120g)
+                - Snack: Whole grain crackers (30g) with hummus (50g)
+                - Dinner: Grilled fish (150g) with brown rice (100g) and roasted vegetables (150g)
+            `;
+
+            const weightLossDiet = `
+                - Breakfast: Whole grain toast (30g) with avocado (50g)
+                - Snack: Almonds (35g) and a piece of fruit (150g)
+                - Lunch: Turkey (85g) and veggie wrap with lettuce leaves instead of tortilla
+                - Snack: Greek yogurt (200g) with berries (75g)
+                - Dinner: Grilled chicken breast (120g) with sweet potato (150g) and steamed broccoli (150g)
+            `;
+
+            const weightGainDiet = `
+                - Breakfast: Protein smoothie with banana (120g) and almond butter (32g)
+                - Snack: Whole grain toast (30g) with almond butter (32g)
+                - Lunch: Brown rice (100g) salad with black beans (60g), corn (60g), and avocado (50g)
+                - Snack: Greek yogurt (200g) with granola (25g)
+                - Dinner: Beef stir-fry with brown rice (90g) and vegetables (150g)
+            `;
+
             const result = `
                 <p><strong>BMI:</strong> ${bmi}</p>
-                <p><strong>Push-ups:</strong> ${pushUps}</p>
-                <p><strong>Pull-ups:</strong> ${pullUps}</p>
-                <p><strong>Running Recommendation:</strong> ${runningRecommendation}</p>
+                <p><strong>BMI Category:</strong> ${bmiCategory}</p>
                 <p><strong>Maintenance Calories:</strong> ${maintenanceCalories.toFixed(0)} kcal/day</p>
+                <p><strong>Maintenance Diet Example:</strong></p>
+                <p>${maintenanceDiet}</p>
                 <p><strong>Weight Loss Calories:</strong> ${weightLossCalories.toFixed(0)} kcal/day</p>
+                <p><strong>Weight Loss Diet Example:</strong></p>
+                <p>${weightLossDiet}</p>
                 <p><strong>Weight Gain Calories:</strong> ${weightGainCalories.toFixed(0)} kcal/day</p>
+                <p><strong>Weight Gain Diet Example:</strong></p>
+                <p>${weightGainDiet}</p>
             `;
             document.getElementById('result').innerHTML = result;
         }
