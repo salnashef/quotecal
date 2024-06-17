@@ -149,6 +149,7 @@
             `;
 
             const result = `
+                <p><strong>Recommended Daily Protein Intake:</strong> ${proteinIntake} grams/day</p>
                 <p><strong>BMI:</strong> ${bmi}</p>
                 <p><strong>BMI Category:</strong> ${bmiCategory}</p>
                 <p><strong>Maintenance Calories:</strong> ${maintenanceCalories.toFixed(0)} kcal/day</p>
@@ -160,7 +161,7 @@
                 <p><strong>Weight Gain Calories:</strong> ${weightGainCalories.toFixed(0)} kcal/day</p>
                 <p><strong>Weight Gain Diet Example:</strong></p>
                 <p>${weightGainDiet}</p>
-                <p><strong>Recommended Daily Protein Intake:</strong> ${proteinIntake} grams/day</p>
+                
             `;
             document.getElementById('result').innerHTML = result;
         }
