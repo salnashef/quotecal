@@ -123,6 +123,7 @@
             weightLossCalories = maintenanceCalories - 500;
             weightGainCalories = maintenanceCalories + 500;
 
+            const proteinIntake = (weight * 1.6).toFixed(1); // Recommended protein intake in grams
             const maintenanceDiet = `
                 - Breakfast: Greek yogurt (200g) with mixed berries (100g) and honey (15g)
                 - Snack: Mixed nuts (30g)
@@ -159,6 +160,7 @@
                 <p><strong>Weight Gain Calories:</strong> ${weightGainCalories.toFixed(0)} kcal/day</p>
                 <p><strong>Weight Gain Diet Example:</strong></p>
                 <p>${weightGainDiet}</p>
+                <p><strong>Recommended Daily Protein Intake:</strong> ${proteinIntake} grams/day</p>
             `;
             document.getElementById('result').innerHTML = result;
         }
