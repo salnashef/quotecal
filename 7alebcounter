@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Time Counter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .counter {
+            margin: 20px;
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+<body>
+    <div class="counter" id="timeSinceJune8"></div>
+    <div class="counter" id="timeSinceJune17"></div>
+
+    <script>
+        function updateTime() {
+            const startDateJune8 = new Date('2024-06-08T00:00:00');
+            const startDateJune17 = new Date('2024-06-17T00:00:00');
+            const now = new Date();
+
+            function formatTimeDiff(startDate) {
+                const diff = now - startDate;
+                const totalSeconds = Math.floor(diff / 1000);
+                const days = Math.floor(totalSeconds / 86400);
+                const hours = Math.floor((totalSeconds % 86400) / 3600);
+                const minutes = Math.floor((totalSeconds % 3600) / 60);
+                const seconds = totalSeconds % 60;
+                return `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+            }
+
+            document.getElementById('timeSinceJune8').textContent = `سليم لم يحلبه من: ${formatTimeDiff(startDateJune8)}`;
+            document.getElementById('timeSinceJune17').textContent = `راشد لم يحلبه من: ${formatTimeDiff(startDateJune17)}`;
+        }
+
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
+</body>
+</html>
