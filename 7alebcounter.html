@@ -12,11 +12,21 @@
             margin: 20px;
             font-size: 1.5em;
         }
+        .title {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
-    <div class="counter" id="timeSinceJune8"></div>
-    <div class="counter" id="timeSinceJune17"></div>
+    <div class="counter">
+        <div class="title">سليم لم يحلبه من:</div>
+        <div id="timeSinceJune8"></div>
+    </div>
+    <div class="counter">
+        <div class="title">راشد لم يحلبه من:</div>
+        <div id="timeSinceJune17"></div>
+    </div>
 
     <script>
         function updateTime() {
@@ -34,8 +44,8 @@
                 return `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
             }
 
-            document.getElementById('timeSinceJune8').textContent = `سليم لم يحلبه من:' ${formatTimeDiff(startDateJune8)}`;
-            document.getElementById('timeSinceJune17').textContent = `راشد لم يحلبه من:' ${formatTimeDiff(startDateJune17)}`;
+            document.getElementById('timeSinceJune8').textContent = formatTimeDiff(startDateJune8);
+            document.getElementById('timeSinceJune17').textContent = formatTimeDiff(startDateJune17);
         }
 
         setInterval(updateTime, 1000);
