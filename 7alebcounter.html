@@ -34,8 +34,8 @@
                 return `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
             }
 
-            document.getElementById('timeSinceJune8').textContent = `سليم لم يحلبه من: ${formatTimeDiff(startDateJune8)}`;
-            document.getElementById('timeSinceJune17').textContent = `راشد لم يحلبه من: ${formatTimeDiff(startDateJune17)}`;
+            document.getElementById('timeSinceJune8').textContent = `سليم لم يحلبه من:' ${formatTimeDiff(startDateJune8)}`;
+            document.getElementById('timeSinceJune17').textContent = `راشد لم يحلبه من:' ${formatTimeDiff(startDateJune17)}`;
         }
 
         setInterval(updateTime, 1000);
