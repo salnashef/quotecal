@@ -25,13 +25,13 @@
     </div>
     <div class="counter">
         <div class="title">راشد لم يحلبه من:</div>
-        <div id="timeSinceJune17"></div>
+        <div id="timeSinceJune20"></div>
     </div>
 
     <script>
         function updateTime() {
             const startDateJune8 = new Date('2024-06-08T00:00:00');
-            const startDateJune17 = new Date('2024-06-20T12:56:00');
+            const startDateJune20 = new Date('2024-06-20T12:56:00');
             const now = new Date();
 
             function formatTimeDiff(startDate) {
@@ -45,7 +45,7 @@
             }
 
             document.getElementById('timeSinceJune8').textContent = formatTimeDiff(startDateJune8);
-            document.getElementById('timeSinceJune17').textContent = formatTimeDiff(startDateJune17);
+            document.getElementById('timeSinceJune20').textContent = formatTimeDiff(startDateJune20);
         }
 
         setInterval(updateTime, 1000);
