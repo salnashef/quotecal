@@ -463,6 +463,7 @@ button {
         <strong class="white-text">Homestay Duration (weeks):</strong> ${homestayDuration}<br>
         <strong class="white-text">Transfer Type:</strong> ${transferType}<br>
         <strong class="white-text">Medical Insurance Days:</strong> ${insuranceDays}<br>
+        <br>
         <strong class="white-text">Tuition:</strong> $${tuition.toFixed(2)}<br>
         <strong class="white-text">Discount Given:</strong> $${(tuition - tuitionAfterDiscount).toFixed(2)}<br>
         <strong class="white-text">Material fees:</strong> $${materialFees.toFixed(2)}<br>
@@ -471,6 +472,7 @@ button {
         <strong class="white-text">Homestay placement fee:</strong> $${homestayPlacementFee.toFixed(2)}<br>
         <strong class="white-text">Transfer fee:</strong> $${transferPrice.toFixed(2)}<br>
         <strong class="white-text">Medical insurance fee (${insuranceDays} days):</strong> $${insurancePrice.toFixed(2)}<br>
+        <br>
         <strong class="white-text">Total:</strong> $${totalPrice.toFixed(2)}
       `;
       totalPriceElement.style.display = "block";
