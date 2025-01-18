@@ -8,35 +8,56 @@
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      margin-top: 20%;
+      margin-top: 5%;
+      background-color: #f4f4f9;
+      color: #333;
     }
     #countdown {
-      font-size: 2em;
+      font-size: 1.8em;
       color: #333;
+    }
+    #breakdown {
+      margin-top: 20px;
+      font-size: 1.2em;
+      color: #555;
+    }
+    h1 {
+      font-size: 2.5em;
+      color: #2c3e50;
+    }
+    p {
+      font-size: 1.5em;
+      margin-top: 30px;
+      color: #7f8c8d;
+      font-style: italic;
     }
   </style>
 </head>
 <body>
-  <h1>Countdown to September 29, 2114</h1>
+  <h1>Countdown: 2,766 Weeks Remaining</h1>
   <div id="countdown"></div>
+  <p>"One Day or Day One – The choice is yours."</p>
 
   <script>
-    // Target end date
-    const endDate = new Date('2114-09-29T05:27:44').getTime();
+    // Target end date based on weeks
+    const weeksRemaining = 2766; // Rounded up from 2765.41
+    const millisecondsInAWeek = 1000 * 60 * 60 * 24 * 7;
+    const endDate = new Date(Date.now() + (weeksRemaining * millisecondsInAWeek));
 
     function updateCountdown() {
       const now = new Date().getTime();
       const timeLeft = endDate - now;
 
       // Calculate time components
-      const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+      const totalWeeks = Math.floor(timeLeft / millisecondsInAWeek);
+      const days = Math.floor((timeLeft % millisecondsInAWeek) / (1000 * 60 * 60 * 24));
       const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
       // Display the result
       document.getElementById('countdown').innerHTML =
-        `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+        `${totalWeeks} weeks, ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
 
       // Stop countdown at zero
       if (timeLeft < 0) {
