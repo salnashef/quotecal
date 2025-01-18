@@ -16,10 +16,14 @@
       font-size: 1.8em;
       color: #333;
     }
-    #breakdown {
-      margin-top: 20px;
+    #days-line {
+      margin-top: 10px;
       font-size: 1.2em;
-      color: #555;
+      color: #2c3e50;
+      word-wrap: break-word;
+      max-width: 90%;
+      margin: 10px auto;
+      line-height: 1.5;
     }
     h1 {
       font-size: 2.5em;
@@ -34,35 +38,42 @@
   </style>
 </head>
 <body>
-  <h1>Countdown: 2,766 Weeks Remaining</h1>
+  <h1>Countdown: 19,365 Days Remaining</h1>
+    <p>Born in 1987 and lived to 90 years</p>
+    <p>"One Day or Day One – The choice is yours."</p>
   <div id="countdown"></div>
-  <p>"One Day or Day One – The choice is yours."</p>
+  <div id="days-line"></div>
+  
 
   <script>
-    // Target end date based on weeks
-    const weeksRemaining = 2766; // Rounded up from 2765.41
-    const millisecondsInAWeek = 1000 * 60 * 60 * 24 * 7;
-    const endDate = new Date(Date.now() + (weeksRemaining * millisecondsInAWeek));
+    // Target end date based on days
+    const daysRemaining = 19365; // Total number of days left (2766 weeks * 7 days)
+    const millisecondsInADay = 1000 * 60 * 60 * 24;
+    const endDate = new Date(Date.now() + (daysRemaining * millisecondsInADay));
 
     function updateCountdown() {
       const now = new Date().getTime();
       const timeLeft = endDate - now;
 
       // Calculate time components
-      const totalWeeks = Math.floor(timeLeft / millisecondsInAWeek);
-      const days = Math.floor((timeLeft % millisecondsInAWeek) / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const totalDays = Math.floor(timeLeft / millisecondsInADay);
+      const hours = Math.floor((timeLeft % millisecondsInADay) / (1000 * 60 * 60));
       const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-      // Display the result
+      // Display the countdown
       document.getElementById('countdown').innerHTML =
-        `${totalWeeks} weeks, ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+        `${totalDays} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+
+      // Generate "I" characters based on the total days left
+      const daysLine = 'I'.repeat(totalDays);
+      document.getElementById('days-line').textContent = daysLine;
 
       // Stop countdown at zero
       if (timeLeft < 0) {
         clearInterval(timerInterval);
         document.getElementById('countdown').innerHTML = "Time's up!";
+        document.getElementById('days-line').textContent = "";
       }
     }
 
