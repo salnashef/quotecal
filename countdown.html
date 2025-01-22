@@ -18,68 +18,104 @@
     }
     #days-line {
       margin-top: 10px;
-      font-size: 1.2em;
+      font-size: 1em;
       color: #2c3e50;
       word-wrap: break-word;
       max-width: 90%;
       margin: 10px auto;
       line-height: 1.5;
+      white-space: pre-wrap;
     }
     h1 {
       font-size: 2.5em;
       color: #2c3e50;
     }
     p {
-      font-size: 1.5em;
+      font-size: 1.2em;
       margin-top: 30px;
       color: #7f8c8d;
       font-style: italic;
     }
+    input, button {
+      font-size: 1em;
+      padding: 10px;
+      margin: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #2c3e50;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #34495e;
+    }
   </style>
 </head>
 <body>
-  <h1>Countdown: 19,365 Days Remaining</h1>
-    <p>Born in 1987 and lived to 90 years</p>
-    <p>"One Day or Day One – The choice is yours."</p>
+  <h1>Countdown Timer</h1>
+  <p>Enter your date of birth to see how many days remain if you live to 99 years.</p>
+  <input type="date" id="dob" placeholder="mm/dd/yyyy">
+  <button onclick="startCountdown()">Calculate</button>
   <div id="countdown"></div>
   <div id="days-line"></div>
-  
 
   <script>
-    // Target end date based on days
-    const daysRemaining = 19365; // Total number of days left (2766 weeks * 7 days)
-    const millisecondsInADay = 1000 * 60 * 60 * 24;
-    const endDate = new Date(Date.now() + (daysRemaining * millisecondsInADay));
+    let timerInterval;
 
-    function updateCountdown() {
-      const now = new Date().getTime();
-      const timeLeft = endDate - now;
+    function startCountdown() {
+      // Clear any existing timer
+      clearInterval(timerInterval);
 
-      // Calculate time components
-      const totalDays = Math.floor(timeLeft / millisecondsInADay);
-      const hours = Math.floor((timeLeft % millisecondsInADay) / (1000 * 60 * 60));
-      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-      // Display the countdown
-      document.getElementById('countdown').innerHTML =
-        `${totalDays} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
-
-      // Generate "I" characters based on the total days left
-      const daysLine = 'I'.repeat(totalDays);
-      document.getElementById('days-line').textContent = daysLine;
-
-      // Stop countdown at zero
-      if (timeLeft < 0) {
-        clearInterval(timerInterval);
-        document.getElementById('countdown').innerHTML = "Time's up!";
-        document.getElementById('days-line').textContent = "";
+      const dobInput = document.getElementById('dob').value;
+      if (!dobInput) {
+        alert('Please enter your date of birth.');
+        return;
       }
-    }
 
-    // Update countdown every second
-    const timerInterval = setInterval(updateCountdown, 1000);
+      const dob = new Date(dobInput);
+      const lifespanYears = 99;
+      const endDate = new Date(dob.setFullYear(dob.getFullYear() + lifespanYears));
+      const millisecondsInADay = 1000 * 60 * 60 * 24;
+
+      function updateCountdown() {
+        const now = new Date().getTime();
+        const timeLeft = endDate - now;
+
+        if (timeLeft < 0) {
+          clearInterval(timerInterval);
+          document.getElementById('countdown').innerHTML = "Time's up!";
+          document.getElementById('days-line').textContent = "";
+          return;
+        }
+
+        // Calculate time components
+        const totalDays = Math.floor(timeLeft / millisecondsInADay);
+        const hours = Math.floor((timeLeft % millisecondsInADay) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+        // Display the countdown
+        document.getElementById('countdown').innerHTML =
+          `${totalDays} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+
+        // Generate bars based on the total days left
+        const daysLine = '|'.repeat(totalDays);
+        document.getElementById('days-line').textContent = daysLine;
+
+        // Add the quote in bold
+        const quote = document.createElement('p');
+        quote.innerHTML = "<b>One Day or Day One! The Choice is Yours</b>";
+        if (!document.querySelector('#countdown + p')) {
+          document.getElementById('countdown').after(quote);
+        }
+      }
+
+      // Start the timer
+      timerInterval = setInterval(updateCountdown, 1000);
+      updateCountdown();
+    }
   </script>
 </body>
 </html>
-
