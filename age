@@ -31,7 +31,7 @@
             { name: "Heba", dob: "1986-10-11" },
             { name: "Wejdan", dob: "1992-08-14" },
             { name: "Murad", dob: "1995-12-25" },
-            { name: "Omar", dob: "2022-11-28" }
+            { name: "Omar", dob: "2022-11-27" }
         ];
 
         function calculateAge(dob) {
