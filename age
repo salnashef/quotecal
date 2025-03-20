@@ -22,7 +22,7 @@
 
     <script>
         const people = [
-            { name: "Howyda Salina", dob: "2022-07-12" },
+            { name: "Howyda Salina", dob: "2022-12-7" },
             { name: "Mazen Jr", dob: "2025-02-02" },
             { name: "Alina", dob: "1995-05-19" },
             { name: "Saleem", dob: "1987-11-13" },
