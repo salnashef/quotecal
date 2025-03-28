@@ -43,9 +43,8 @@
             let years = Math.floor(ageDiff / (1000 * 60 * 60 * 24 * 365.25));
             let months = Math.floor((ageDiff % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24 * 30.44));
             let days = Math.floor((ageDiff % (1000 * 60 * 60 * 24 * 30.44)) / (1000 * 60 * 60 * 24));
-            let hours = Math.floor((ageDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             
-            return { years, months, days, hours };
+            return { years, months, days };
         }
 
         function createMeters() {
@@ -54,7 +53,7 @@
 
             people.forEach(person => {
                 let age = calculateAge(person.dob);
-                let ageText = `${age.years} years, ${age.months} months, ${age.days} days, ${age.hours} hours`;
+                let ageText = `${age.years} years, ${age.months} months, ${age.days} days`;
                 
                 let div = document.createElement("div");
                 div.classList.add("age-container");
