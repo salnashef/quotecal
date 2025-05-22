@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Booking Checklist</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .checklist-item {
+      margin: 8px 0;
+    }
+    #message {
+      color: green;
+      font-size: 20px;
+      margin-top: 20px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Booking Accuracy Checklist</h2>
+
+  <div class="checklist-item"><input type="checkbox" class="check-item"> Spelling of the name and it must match the passport</div>
+  <div class="checklist-item"><input type="checkbox" class="check-item"> AM code</div>
+  <div class="checklist-item"><input type="checkbox" class="check-item"> Date of Birth matching with passport</div>
+  <div class="checklist-item"><input type="checkbox" class="check-item"> Lessons per week</div>
+  <div class="checklist-item"><input type="checkbox" class="check-item"> Passport Number</div>
+  <div class="checklist-item"><input type="checkbox" class="check-item"> Passport Expiry</div>
+  <div class="checklist-item"><input type="checkbox" class="check-item"> Address, phone and Email</div>
+  <div class="checklist-item"><input type="checkbox" class="check-item"> Source of booking</div>
+  <div class="checklist-item"><input type="checkbox" class="check-item"> Prices - making sure that we are also including high season supplement and minor charges</div>
+  <div class="checklist-item"><input type="checkbox" class="check-item"> % commission</div>
+  <div class="checklist-item"><input type="checkbox" class="check-item"> Tagging of GRT</div>
+  <div class="checklist-item"><input type="checkbox" class="check-item"> Tagging of Agent</div>
+  <div class="checklist-item"><input type="checkbox" class="check-item"> Direct Agent field - correct school</div>
+  <div class="checklist-item"><input type="checkbox" class="check-item"> Notes if needed</div>
+  <div class="checklist-item"><input type="checkbox" class="check-item"> Upload Application form, passport and parental consent and waiver form</div>
+
+  <div id="message">🎉 Congratulations! Your booking is perfect and accurate!</div>
+
+  <script>
+    const checkboxes = document.querySelectorAll('.check-item');
+    const message = document.getElementById('message');
+
+    checkboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', () => {
+        if ([...checkboxes].every(cb => cb.checked)) {
+          message.style.display = 'block';
+        } else {
+          message.style.display = 'none';
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
